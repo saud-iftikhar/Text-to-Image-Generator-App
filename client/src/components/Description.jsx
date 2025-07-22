@@ -1,5 +1,5 @@
 import { assets } from "../assets/assets"
-
+import { motion } from "motion/react"
 
 const Description = () => {
   return (
