@@ -60,15 +60,29 @@ const loginUser = async (req, res) => {
 }
 
 const userCredits = async (req, res) => {
-   try {
-         const {userId} = req.body
+    try {
+        const userId = req.user.id; // Get userId from req.user
 
-         const user = await userModel.findById(userId)
-         res.json({success: true, credits: user.creditBalance, user: {name: user.name}})
-   } catch (error) {
-         console.log(error.message)
-         res.json({success: false, message: error.message})
-   }
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.json({
+                success: false,
+                message: 'User not found'
+            });
+        }
+
+        res.json({
+            success: true, 
+            credits: user.creditBalance, 
+            user: { name: user.name }
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.json({
+            success: false, 
+            message: error.message
+        });
+    }
 }
 
 export {registerUser, loginUser, userCredits}
